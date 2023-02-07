@@ -1,0 +1,311 @@
+package sample;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+
+
+public class Controller {
+    //declaring all the parts from my FXML (buttons, listViews, etc.).
+    @FXML
+    TextField txtName, txtGenre, txtAge;
+    @FXML
+    ListView<String> lstPeople, lstBooks, lstCheckOut;
+    @FXML
+    Button btnStart, btnName, btnGenre, btnAge;
+    @FXML
+    Label lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8, lbl9, lblTitle, lblPeople, lblBooks, lblCheckOut;
+    Person p1, p2, p3;
+    Books b1, b2, b3, b4, b5;
+
+    @FXML
+    //button that starts program
+    private void handleClickStart() {
+        //declaring 3 new people in the person class.
+        p1 = new Person("Joseph");
+        p2 = new Person("Olivia");
+        p3 = new Person("Robert");
+        //setting the randomized library card numbers for all 3 people.
+        p1.setCardNum();
+        p2.setCardNum();
+        p3.setCardNum();
+        //displaying the library card numbers in their respective labels.
+        displayCardNums();
+        //declaring 3 new books in the book class.
+        b1 = new Books("To Kill A Mockingbird");
+        b2 = new Books("The Great Gatsby");
+        b3 = new Books("The Hunger Games");
+        b4 = new Books("Harry Potter");
+        b5 = new Books("The Catcher in the Rye");
+
+        //runs a function which displays the people in the people listview.
+        setPeople();
+        //runs a function which displays the books in the books listview.
+        setBooks();
+
+        //once the start button is clicked, everything else on the screen appears, and the button is disabled so that they cannot start twice.
+        btnStart.setDisable(true);
+        lblTitle.setVisible(true);
+        txtName.setVisible(true);
+        txtGenre.setVisible(true);
+        txtAge.setVisible(true);
+        btnName.setVisible(true);
+        btnGenre.setVisible(true);
+        btnAge.setVisible(true);
+        lblPeople.setVisible(true);
+        lblBooks.setVisible(true);
+        lblCheckOut.setVisible(true);
+        lstBooks.setVisible(true);
+        lstPeople.setVisible(true);
+        lstCheckOut.setVisible(true);
+    }
+
+    //function which displays library card numbers in their respective labels.
+    public void displayCardNums() {
+        lbl1.setText(p1.getName() + p1.getCardNum());
+        lbl2.setText(p2.getName() + p2.getCardNum());
+        lbl3.setText(p3.getName() + p3.getCardNum());
+    }
+
+    //function which displays people in the people listview.
+    public void setPeople() {
+        lstPeople.getItems().add(p1.getName());
+        lstPeople.getItems().add(p2.getName());
+        lstPeople.getItems().add(p3.getName());
+    }
+
+    //function which displays books in the books listview.
+    public void setBooks() {
+        lstBooks.getItems().add(b1.getName());
+        lstBooks.getItems().add(b2.getName());
+        lstBooks.getItems().add(b3.getName());
+        lstBooks.getItems().add(b4.getName());
+        lstBooks.getItems().add(b5.getName());
+    }
+
+    //function which finds which person is being clicked in the people listview.
+    public String personClicked() {
+        return lstPeople.getSelectionModel().getSelectedItem();
+    }
+
+    //function which finds which book is being clicked in the books listview.
+    public String bookClicked() {
+        return lstBooks.getSelectionModel().getSelectedItem();
+    }
+
+    //function which finds which book is being clicked in the book check out listview.
+    public String bookClickedReturn() {
+        return lstCheckOut.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    //function which changes the name of the person once the button is clicked to do so.
+    private void handleClickName() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //clears list of people in preparation to display new names.
+        lstPeople.getItems().clear();
+        //this set of if else statements finds which name is equal to personClicked (essentially finds who is being clicked).
+        if (personClicked.equals(p1.getName())) {
+            //then, it sets that person's name to the new name that is provided in the text field by the user.
+            p1.setName(txtName.getText());
+        } else if (personClicked.equals(p2.getName())) {
+            p2.setName(txtName.getText());
+        } else {
+            p3.setName(txtName.getText());
+        }
+        //this displays the new names with the card numbers.
+        displayCardNums();
+        //this runs the setPeople function again, which displays the 3 people in the people listview, and now, it will display the new name.
+        setPeople();
+    }
+
+    @FXML
+    //function which changes the preferred genre of the person once the button is clicked to do so.
+    private void handleClickGenre() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //this set of if else statements finds which name is equal to personClicked (essentially finds who is being clicked).
+        if (personClicked.equals(p1.getName())) {
+            //then, it sets their genre to the genre provided by the user in the text field (it does this by running a function in the person class).
+            p1.setGenre(txtGenre.getText());
+            //then, it sets a label to display the person's preferred genre.
+            lbl4.setText(p1.getName() + p1.getGenre());
+        } else if (personClicked.equals(p2.getName())) {
+            p2.setGenre(txtGenre.getText());
+            lbl5.setText(p2.getName() + p2.getGenre());
+        } else {
+            p3.setGenre(txtGenre.getText());
+            lbl6.setText(p3.getName() + p3.getGenre());
+        }
+
+    }
+
+    @FXML
+    //function which changes the age of the person once the button is clicked to do so.
+    private void handleClickAge() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //this set of if else statements finds which name is equal to personClicked (essentially finds who is being clicked).
+        if (personClicked.equals(p1.getName())) {
+            //then, it sets their age to the age provided by the user in the text field (it does this by running a function in the person class).
+            p1.setAge(txtAge.getText());
+            //then, it sets a label to display the person's age.
+            lbl7.setText(p1.getName() + p1.getAge());
+        } else if (personClicked.equals(p2.getName())) {
+            p2.setAge(txtAge.getText());
+            lbl8.setText(p2.getName() + p2.getAge());
+        } else {
+            p3.setAge(txtAge.getText());
+            lbl9.setText(p3.getName() + p3.getAge());
+        }
+    }
+
+    @FXML
+    //function that adds a book to the person's "cart" or checked out books, by moving it from the listview of books in the library to that person's specific checked out books listview.
+    private void handleClickCheckOut() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //sets a string equal to the name of the book clicked, which is the value returned by the bookClicked function.
+        String bookClicked = bookClicked();
+        //sets an integer equal to which spot the book selected is in.
+        int bookIndex = lstBooks.getSelectionModel().getSelectedIndex();
+
+        //this set of if else statements finds out which person is selected when the book is being selected.
+        if (personClicked.equals(p1.getName())) {
+            //then, it passes the person's name, the name of the book, and the index/spot of the book in a parameter in the checkPersonAndBook function.
+            checkPersonAndBook(bookClicked, p1.getName(), bookIndex);
+        } else if (personClicked.equals(p2.getName())) {
+            checkPersonAndBook(bookClicked, p2.getName(), bookIndex);
+        } else {
+            checkPersonAndBook(bookClicked, p3.getName(), bookIndex);
+        }
+    }
+
+    //function that finds out which book should be added to the checked out books listview, and also assigns that person to that book so that other people cannot check that book out.
+    public void checkPersonAndBook(String bookClicked, String name, int bookIndex) {
+        //this set of if else statements finds out if the book clicked is equal to the name of the book (this just narrows it down to find out which book is being selected), and it also runs a function in the book class, called getBookAvailability, to make sure that book is available in the library.
+        if (bookClicked.equals(b1.getName()) && b1.getBookAvailability()) {
+            //then, if this is the book clicked, and this book is available, these sequence of statements will run.
+            //this will first remove the book being checked out from the listview of the books in the library, using the bookIndex variable.
+            lstBooks.getItems().remove(bookIndex);
+            //then, it will add the person's name who is checking out the book to the book's person variable, which can be found in the book class, and this is made possible by the addPeople function.
+            b1.addPeople(name);
+            //then, it will set the book's status to unavailable using the bookUnavailable function in the book class, so that other people are not able to check out this book.
+            b1.bookUnavailable();
+            //then, it will add the book clicked to the checkout listview, to show that the book is in that person's check out list.
+            lstCheckOut.getItems().add(bookClicked);
+        } else if (bookClicked.equals(b2.getName()) && b2.getBookAvailability()) {
+            lstBooks.getItems().remove(bookIndex);
+            b2.addPeople(name);
+            b2.bookUnavailable();
+            lstCheckOut.getItems().add(bookClicked);
+        } else if (bookClicked.equals(b3.getName()) && b3.getBookAvailability()) {
+            lstBooks.getItems().remove(bookIndex);
+            b3.addPeople(name);
+            b3.bookUnavailable();
+            lstCheckOut.getItems().add(bookClicked);
+        } else if (bookClicked.equals(b4.getName()) && b4.getBookAvailability()) {
+            lstBooks.getItems().remove(bookIndex);
+            b4.addPeople(name);
+            b4.bookUnavailable();
+            lstCheckOut.getItems().add(bookClicked);
+        } else if (bookClicked.equals(b5.getName()) && b5.getBookAvailability()) {
+            lstBooks.getItems().remove(bookIndex);
+            b5.addPeople(name);
+            b5.bookUnavailable();
+            lstCheckOut.getItems().add(bookClicked);
+        }
+    }
+
+    @FXML
+    //function that removes a book from the person's "cart" or checked out books, by moving it from the listview of books that person checked out to the books listview which displays all the books available in the library.
+    private void handleClickReturnBook() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //sets a string equal to the name of the book clicked, which is the value returned by the bookClicked function.
+        String bookClicked = bookClickedReturn();
+        //sets an integer equal to which spot the book selected is in.
+        int bookIndex = lstCheckOut.getSelectionModel().getSelectedIndex();
+        //this will first remove the book being returned from the listview of the books being checked out, using the bookIndex variable.
+        lstCheckOut.getItems().remove(bookIndex);
+        //this set of if else statements finds out which person is selected when the book is being selected.
+        if (personClicked.equals(p1.getName())) {
+            //then, it passes the person's name, the name of the book, and the index/spot of the book in a parameter in the checkPersonAndBook function.
+            checkPersonAndBookReturn(bookClicked);
+        } else if (personClicked.equals(p2.getName())) {
+            checkPersonAndBookReturn(bookClicked);
+        } else {
+            checkPersonAndBookReturn(bookClicked);
+        }
+        //adds selected book to listview with all the books in the library.
+        lstBooks.getItems().add(bookClicked);
+    }
+
+    //function that finds out which book should be returned to the library books listview, removes the assignment of the person to that book so that other people can check that book out.
+    public void checkPersonAndBookReturn(String bookClicked) {
+        //this set of if else statements finds out if the book clicked is equal to the name of the book (this just narrows it down to find out which book is being selected).
+        if (bookClicked.equals(b1.getName())) {
+            //then, if this is the book clicked these sequence of statements will run.
+            //this will remove the person's name who is returning the book from the book's person variable, which can be found in the book class, and this is made possible by the removePeople function.
+            b1.removePeople();
+            //then, it will set the book's status to available using the bookAvailable function in the book class, so that other people can check out this book.
+            b1.bookAvailable();
+        } else if (bookClicked.equals(b2.getName())) {
+            b2.removePeople();
+            b2.bookAvailable();
+        } else if (bookClicked.equals(b3.getName())) {
+            b3.removePeople();
+            b3.bookAvailable();
+        } else if (bookClicked.equals(b4.getName())) {
+            b4.removePeople();
+            b4.bookAvailable();
+        } else if (bookClicked.equals(b5.getName())) {
+            b5.removePeople();
+            b5.bookAvailable();
+        }
+
+    }
+
+    @FXML
+    //function that displays the checked out books of the person clicked on.
+    private void handleClickPeopleBooks() {
+        //sets a string equal to the name of the person clicked, which is the value returned by the personClicked function.
+        String personClicked = personClicked();
+        //this clears the books in the checked out books list, since it needs to display the different books corresponding to the different person being clicked on.
+        lstCheckOut.getItems().clear();
+        //this set of if else statements finds out which person is being selected.
+        if (personClicked.equals(p1.getName())) {
+            //then, it passes the person's name in a parameter in the checkPersonAndBook2 function.
+            checkPersonAndBook2(p1.getName());
+        } else if (personClicked.equals(p2.getName())) {
+            checkPersonAndBook2(p2.getName());
+        } else {
+            checkPersonAndBook2(p3.getName());
+        }
+    }
+
+    //function that finds out which books should be displayed in the checked out books listview corresponding to the person selected.
+    public void checkPersonAndBook2(String name) {
+        //this set of if statements finds out if the specific book's person variable contains the name of the person in it.
+        if (b1.getPeople().contains(name)) {
+            //if the person's name is in that variable, this will confirm that the person checked out the book, and it will display the book in the checked out books listview.
+            lstCheckOut.getItems().add(b1.getName());
+        }
+        if (b2.getPeople().contains(name)) {
+            lstCheckOut.getItems().add(b2.getName());
+        }
+        if (b3.getPeople().contains(name)) {
+            lstCheckOut.getItems().add(b3.getName());
+        }
+        if (b4.getPeople().contains(name)) {
+            lstCheckOut.getItems().add(b4.getName());
+        }
+        if (b5.getPeople().contains(name)) {
+            lstCheckOut.getItems().add(b5.getName());
+        }
+
+    }
+}
